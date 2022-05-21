@@ -15,6 +15,9 @@ public class ClockInController {
     @Autowired
     private  ClockInRepository clockin_Repository;
 
+	@Autowired 
+	private  ClockInService clockIn_Service;
+
     public ClockInController(ClockInRepository clockin_Repository) {
 		this.clockin_Repository = clockin_Repository;
 	}
