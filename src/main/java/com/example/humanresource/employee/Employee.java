@@ -1,5 +1,5 @@
-package com.example.humanresource.employee;
+// package com.example.humanresource.employee;
 
-public class Employee {
+// public class Employee {
     
-}
+// }

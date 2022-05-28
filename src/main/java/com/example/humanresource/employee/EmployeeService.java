@@ -1,7 +1,7 @@
-package com.example.humanresource.employee;
+// package com.example.humanresource.employee;
 
-public interface EmployeeService {
+// public interface EmployeeService {
     
-    public Employee saveEmployee(Employee member);
+//     public Employee saveEmployee(Employee member);
 
-}
+// }

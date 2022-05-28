@@ -1,5 +1,7 @@
-package com.example.humanresource.employee;
+// package com.example.humanresource.employee;
 
-public class EmployeeRepository {
+// import org.springframework.data.jpa.repository.JpaRepository;
+
+// public interface EmployeeRepository extends JpaRepository<Employee, String>{
     
-}
+// }
