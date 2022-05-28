@@ -22,4 +22,8 @@ public class ClockInService {
 		
         return result;
     }
+
+    public void clearAllReords(){
+        this.clockin_repo.deleteAll();
+    }
 }
