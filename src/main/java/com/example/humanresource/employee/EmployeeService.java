@@ -1,4 +1,4 @@
-package employee;
+package com.example.humanresource.employee;
 
 public interface EmployeeService {
     

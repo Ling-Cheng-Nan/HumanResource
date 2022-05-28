@@ -1,4 +1,4 @@
-package employee;
+package com.example.humanresource.employee;
 
 import java.util.Date;
 import java.util.UUID;

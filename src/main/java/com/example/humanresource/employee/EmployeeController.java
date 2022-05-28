@@ -1,4 +1,4 @@
-package employee;
+package com.example.humanresource.employee;
 
 import java.util.Collection;
 import java.util.Optional;
