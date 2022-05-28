@@ -36,4 +36,7 @@ public class ClockIn {
     
     public String description;
 
+    public Double latitude;
+    
+    public Double longitude;
 }

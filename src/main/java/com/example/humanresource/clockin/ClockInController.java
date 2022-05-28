@@ -9,24 +9,22 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/clockin")
 public class ClockInController {
-    
-    @Autowired
-    private  ClockInRepository clockin_Repository;
+
 
 	@Autowired 
 	private  ClockInService clockin_service;
 
-    public ClockInController(ClockInRepository clockin_Repository) {
-		this.clockin_Repository = clockin_Repository;
-	}
+    // public ClockInController(ClockInService clockin_service) {
+	// 	this.clockin_service = clockin_service;
+	// }
 	
 	@GetMapping
 	public ResponseEntity getAll() {
-		return ResponseEntity.ok(this.clockin_service.allRecords());
+		return ResponseEntity.ok(this.clockin_service.fetchAllRecords());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<ClockIn> findById(@PathVariable("id") String id) {
+	public ResponseEntity<ClockIn> getCertain(@PathVariable("id") String id) {
 		
 		Optional<ClockIn> result = this.clockin_service.certainRecord(id);
 		
@@ -38,69 +36,80 @@ public class ClockInController {
 		}
 	}
 	
-	// @PostMapping
-	// public ResponseEntity<ClockIn> createProduct(@RequestBody ClockIn newProduct) {
-	// 	try {
-	// 		ClockIn clockin = clockin_Repository
-	// 				.save(new ClockIn(newProduct.getName(), newProduct.getDescription() ));
+	@PostMapping
+	public ResponseEntity<ClockIn> createNew(@RequestBody ClockIn newRecord) {
+		try {
+			ClockIn clockin = this.clockin_service.create(newRecord);
 			
-	// 		return new ResponseEntity<>(clockin, HttpStatus.CREATED);
+			return new ResponseEntity<>(clockin, HttpStatus.CREATED);
 		
-	// 	} catch (Exception e) {
+		} catch (Exception e) {
 			
-	// 		return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-	// 	}
-	// }
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	
 	// @PutMapping("/{id}")
-	// public ResponseEntity<ClockIn> updateProduct(@PathVariable("id") Long id, @RequestBody ClockIn newProduct) {
+	// public ResponseEntity<ClockIn> updateCertain(@PathVariable("id") String id, @RequestBody ClockIn record)
+	@PutMapping
+	public ResponseEntity<ClockIn> updateCertain(@RequestBody ClockIn source) {
 		
-	// 	Optional<ClockIn> desired_Product = this.clockin_Repository.findById(id);
+		/* find the record is existing in the database or not first*/
+		Optional<ClockIn> record_found = this.clockin_service.certainRecord(source.getPrimary_key());
 		
-	// 	if(desired_Product.isPresent()) {
-	// 		ClockIn product_to_be_updated = desired_Product.get();
+		if(record_found.isPresent()) {
+
+			ClockIn target = record_found.get();
 			
-	// 		product_to_be_updated.setId(id);
-	// 		product_to_be_updated.setName(newProduct.getName());
-	// 		product_to_be_updated.setDescription(newProduct.getDescription());
-			
-	// 		return new ResponseEntity<>(this.clockin_Repository.save(product_to_be_updated), HttpStatus.OK);
-	// 	}
-	// 	else {
-	// 		/*create a new one if there is no id founded*/
-	// 		try {
-	// 			ClockIn product = clockin_Repository
-	// 					.save(new Product(newProduct.getName(), newProduct.getDescription() ));
+			/* update the infomation of the desired one */
+			target.setEmpid(source.getEmpid());
+			target.setPerson_name(source.getPerson_name());
+			target.setStatus(source.getStatus());
+			target.setCheck_date(source.getCheck_date());
+			target.setDescription(source.getDescription());
+			target.setLatitude(source.getLatitude());
+			target.setLongitude(source.getLongitude());
+
+			/* save the target record in the service */
+			return new ResponseEntity<>(this.clockin_service.save(target), HttpStatus.OK);
+		}
+		else {
+			/*create a new one if there is no id founded*/
+			try {
+				ClockIn newRecord = this.clockin_service.create(new ClockIn());
 				
-	// 			return new ResponseEntity<>(product, HttpStatus.CREATED);
+				return new ResponseEntity<>(newRecord, HttpStatus.CREATED);
 			
-	// 		} catch (Exception e) {
+			} catch (Exception e) {
 				
-	// 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-	// 		}
+				return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 			
-	// 		/*return NOT founded error*/
-	// 		//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	// 	}
+			/*return NOT founded error*/
+			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 		
-	// }
+	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") String id) {
+	public ResponseEntity<HttpStatus> deleteCertain(@PathVariable("id") String id) {
+		
 		try {
-			
-			this.clockin_Repository.deleteById(id);
-			
+		
+			this.clockin_service.deleteCertainRecord(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		
 		} catch (Exception e) {
+		
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		
 		}
 	}
 
 	@DeleteMapping
-	public ResponseEntity<HttpStatus> deleteAllProducts() {
+	public ResponseEntity<HttpStatus> clearAll() {
 		try {
-			this.clockin_service.clearAllReords();
+			this.clockin_service.clearAllRecords();
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			

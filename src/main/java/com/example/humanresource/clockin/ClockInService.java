@@ -11,8 +11,21 @@ public class ClockInService {
      
     @Autowired 
     ClockInRepository clockin_repo;
+    
+    /* CREATE */
+    public ClockIn create(ClockIn newRecord){
+        // ClockIn clockin = this.clockin_repo.save(new ClockIn());
+        return this.clockin_repo.saveAndFlush(newRecord);
+        
+    }
 
-    public List<ClockIn> allRecords(){
+    public ClockIn save(ClockIn record){
+        return this.clockin_repo.saveAndFlush(record);
+    }
+
+
+    /* QUERY */
+    public List<ClockIn> fetchAllRecords(){
         return this.clockin_repo.findAll();
     }
 
@@ -23,7 +36,15 @@ public class ClockInService {
         return result;
     }
 
-    public void clearAllReords(){
+    /* UPDATE */
+
+
+    /* DELETE */
+    public void deleteCertainRecord(String id){
+        this.clockin_repo.deleteById(id);
+    }
+
+    public void clearAllRecords(){
         this.clockin_repo.deleteAll();
     }
 }
