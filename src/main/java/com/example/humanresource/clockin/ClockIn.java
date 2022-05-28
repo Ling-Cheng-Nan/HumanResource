@@ -1,8 +1,11 @@
-package clockin;
+package com.example.humanresource.clockin;
 
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -19,11 +22,18 @@ import lombok.Setter;
 @Table(name="clockin")
 public class ClockIn {
     
-    public String id;
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    public String primary_key;
 
+    public String empid;
+    
     public String person_name;
     
-    public Date check_date;
-
+    public String status;
     
+    public Date check_date;
+    
+    public String description;
+
 }

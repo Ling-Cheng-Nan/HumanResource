@@ -1,4 +1,4 @@
-package clockin;
+package com.example.humanresource.clockin;
 
 
 import java.util.Optional;
@@ -16,7 +16,7 @@ public class ClockInController {
     private  ClockInRepository clockin_Repository;
 
 	@Autowired 
-	private  ClockInService clockIn_Service;
+	private  ClockInService clockin_service;
 
     public ClockInController(ClockInRepository clockin_Repository) {
 		this.clockin_Repository = clockin_Repository;
@@ -24,13 +24,13 @@ public class ClockInController {
 	
 	@GetMapping
 	public ResponseEntity getAll() {
-		return ResponseEntity.ok(this.clockin_Repository.findAll());
+		return ResponseEntity.ok(this.clockin_service.allRecords());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<ClockIn> findById(@PathVariable("id") Long id) {
+	public ResponseEntity<ClockIn> findById(@PathVariable("id") String id) {
 		
-		Optional<ClockIn> result = this.clockin_Repository.findById(id);
+		Optional<ClockIn> result = this.clockin_service.certainRecord(id);
 		
 		if(result.isPresent()) {
 			return new ResponseEntity<>(result.get() ,HttpStatus.OK);
@@ -88,7 +88,7 @@ public class ClockInController {
 	// }
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") Long id) {
+	public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") String id) {
 		try {
 			
 			this.clockin_Repository.deleteById(id);
