@@ -15,7 +15,6 @@ public class RegistrationService {
     private final AppUserService appUserService;
     private EmailValidator emailValidator;
 
-
     public String register(RegistrationRequest request) {
         //check the email is valid or not 
         boolean isValidEmail = emailValidator.
