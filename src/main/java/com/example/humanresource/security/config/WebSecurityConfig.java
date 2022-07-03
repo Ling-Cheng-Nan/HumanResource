@@ -1,5 +1,7 @@
 package com.example.humanresource.security.config;
 
+import com.example.humanresource.appuser.AppUserService;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -9,31 +11,24 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.example.humanresource.appuser.AppUserService;
-
-import lombok.AllArgsConstructor;
-
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
-    
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
     private final AppUserService appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        
         http
-            .csrf().disable()
-            .authorizeRequests()
-            .antMatchers("/api/v*/registration/**")
-            .permitAll()
-            .anyRequest()
-            .authenticated().and()
-            .formLogin();
-
-        // super.configure(http);
+                .csrf().disable()
+                .authorizeRequests()
+                    .antMatchers("/api/v*/registration/**")
+                    .permitAll()
+                .anyRequest()
+                .authenticated().and()
+                .formLogin();
     }
 
     @Override
@@ -42,13 +37,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(){
-        
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider provider =
+                new DaoAuthenticationProvider();
         provider.setPasswordEncoder(bCryptPasswordEncoder);
         provider.setUserDetailsService(appUserService);
-        
         return provider;
-
     }
 }
