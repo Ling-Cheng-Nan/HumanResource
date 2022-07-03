@@ -3,6 +3,7 @@ package com.example.humanresource.registration.token;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@Entity
 public class ConfirmationToken {
     
     @Id
@@ -54,13 +56,13 @@ public class ConfirmationToken {
     public ConfirmationToken(String token, 
                             LocalDateTime createdAt, 
                             LocalDateTime expiresAt, 
-                            LocalDateTime confirmedAt,
+                            // LocalDateTime confirmedAt,
                             AppUser appUser
                             ) {
         this.token = token;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
-        this.confirmedAt = confirmedAt;
+        // this.confirmedAt = confirmedAt;
         this.appUser = appUser;
     }
 }
