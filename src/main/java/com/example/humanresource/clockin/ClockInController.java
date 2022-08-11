@@ -18,6 +18,11 @@ public class ClockInController {
 	// 	this.clockin_service = clockin_service;
 	// }
 	
+	@GetMapping("/test")
+	public String test() {
+		return "test successfully";
+	}
+
 	@GetMapping
 	public ResponseEntity getAll() {
 		return ResponseEntity.ok(this.clockin_service.fetchAllRecords());
