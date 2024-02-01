@@ -2,7 +2,7 @@ package com.example.humanresource.appuser;
 
 import com.example.humanresource.registration.token.ConfirmationToken;
 import com.example.humanresource.registration.token.ConfirmationTokenService;
-import lombok.AllArgsConstructor;
+import lombok.AllArgsConstructor; 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
